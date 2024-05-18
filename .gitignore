@@ -7,6 +7,7 @@
 *.dll
 *.so
 *.dylib
+/bin/mailing-service
 
 # Test binary, built with `go test -c`
 *.test
