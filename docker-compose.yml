@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  # mailing-service:
-  #   build:
-  #     context: .
-  #     args:
-  #       image: golang:1.22
-  #       dockerfile: ./Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     - PORT=8080
+  mailing-service:
+    build:
+      context: .
+      args:
+        image: golang:1.22
+        dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
 
   postgres:
     image: postgres

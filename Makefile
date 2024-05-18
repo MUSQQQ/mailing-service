@@ -5,10 +5,10 @@ test:
 	@go test -v ./...
 
 build: 
-	@go build -i -v ./...
+	@go build -v -o ./bin ./...
 
 install:
-	@go install -v ./cmd/payments-webhook
+	@go install -v ./cmd/mailing-service
 
 run-local:
 	@docker-compose -f docker-compose.yml up --build --force-recreate
