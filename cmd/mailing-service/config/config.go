@@ -14,7 +14,8 @@ type Config struct {
 type DBConfig struct {
 	User     string `env:"DB_USER" envDefault:"postgres"`
 	Password string `env:"DB_PASSWORD" envDefault:"postgres"`
-	Address  string `env:"DB_ADDRESS" envDefault:"localhost:8080"`
+	Address  string `env:"DB_ADDRESS" envDefault:"postgres:5432"`
+	Database string `env:"DB_NAME" envDefault:"mailing"`
 }
 
 type RouterConfig struct {

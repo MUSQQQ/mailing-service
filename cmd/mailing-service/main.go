@@ -3,7 +3,6 @@ package main
 import (
 	"mailing-service/cmd/mailing-service/config"
 	"mailing-service/service"
-	"mailing-service/storage"
 
 	"github.com/sirupsen/logrus"
 )
@@ -13,7 +12,7 @@ func main() {
 
 	cfg := config.Parse()
 
-	db := storage.New(cfg.DBConfig)
+	db := service.NewDB(cfg.DBConfig)
 
 	srv := service.New(db)
 
