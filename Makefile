@@ -1,7 +1,14 @@
-#make lint
+lint:
+	@golint ./...
+	
+test:
+	@go test -v ./...
 
-#make test
+build: 
+	@go build -i -v ./...
 
-#make build
+install:
+	@go install -v ./cmd/payments-webhook
 
-#make run
+run-local:
+	@docker-compose -f docker-compose.yml up --build --force-recreate

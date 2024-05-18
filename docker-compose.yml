@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  # mailing-service:
+  #   build:
+  #     context: .
+  #     args:
+  #       image: golang:1.22
+  #       dockerfile: ./Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - PORT=8080
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "mailing"
+      PGDATA: /data/postgres
+    volumes:
+       - ./data:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    # networks:
+    #   - postgres
+    restart: unless-stopped
+
+# networks:
+#   postgres:
+#     driver: bridge
