@@ -30,7 +30,7 @@ func (s *Service) CreateMailingDetails(w http.ResponseWriter, r *http.Request) {
 	}
 	log.WithField("mapped_details", mailingDetails)
 
-	err = s.db.CreateMailingDetails(*mailingDetails)
+	err = s.db.CreateMailingDetails(mailingDetails)
 	if err != nil {
 		log.WithError(err).Error("failed to save mailing details")
 		http.Error(w, err.Error(), http.StatusInternalServerError)
