@@ -1,7 +1,11 @@
 package service
 
 import (
+	"fmt"
 	"mailing-service/cmd/mailing-service/config"
+	"strconv"
+	"strings"
+	"time"
 
 	"github.com/go-pg/pg/v10"
 )
@@ -51,5 +55,40 @@ func (db *DB) GetMailingDetailsByMailingID(mailingID int) ([]*MailingDetails, er
 	return details, nil
 }
 
-//func (db *DB) GetMailingDetails(){}
-//func (db *DB) DeleteMailingDetails(){}
+func (db *DB) DeleteMailingDetails(whereClauses []string) error {
+	_, err := db.db.Exec(fmt.Sprintf(`DELETE FROM mailing_details WHERE %s`, strings.Join(whereClauses, " AND ")))
+
+	return err
+}
+
+type Filters struct {
+	clauses []string
+}
+
+func (f *Filters) ByIDs(ids []int) *Filters {
+	if f.clauses == nil {
+		f.clauses = []string{}
+	}
+	idsStr := []string{}
+	for _, id := range ids {
+		idsStr = append(idsStr, strconv.Itoa(id))
+	}
+	f.clauses = append(f.clauses, fmt.Sprintf(`id IN (%v)`, strings.Join(idsStr, ", ")))
+	return f
+}
+
+func (f *Filters) ByInsertTimeBefore(insertTime time.Time) *Filters {
+	if f.clauses == nil {
+		f.clauses = []string{}
+	}
+	f.clauses = append(f.clauses, fmt.Sprintf(`insert_time<%s`, insertTime))
+	return f
+}
+
+func (f *Filters) ByMailingID(id int) *Filters {
+	if f.clauses == nil {
+		f.clauses = []string{}
+	}
+	f.clauses = append(f.clauses, fmt.Sprintf(`mailing_id=%d`, id))
+	return f
+}
