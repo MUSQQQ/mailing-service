@@ -2,7 +2,6 @@ package service_test
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"mailing-service/cmd/mailing-service/config"
 	"mailing-service/service"
@@ -14,12 +13,9 @@ import (
 )
 
 func TestCreateMailingDetailsHandler(t *testing.T) {
-	_, cancelFunc := context.WithCancel(context.Background())
-	defer cancelFunc()
-
 	srv := service.NewService(&servicefakes.FakeDBInterface{})
 
-	router := service.NewRouter(&config.RouterConfig{Port: "8999"})
+	router := service.NewRouter(&config.RouterConfig{})
 	router.RegisterHandlers(srv)
 
 	tests := []struct {
