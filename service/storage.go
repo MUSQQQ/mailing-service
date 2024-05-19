@@ -28,13 +28,27 @@ func (db *DB) Close() error {
 
 func (db *DB) CreateMailingDetails(mailingDetails MailingDetails) error {
 	_, err := db.db.Exec(
-		`INSERT INTO mailing_details (email, title, content, mailing_id, insert_time) VALUES (?,?,?,?, ?)`,
+		`INSERT INTO mailing_details (email, title, content, mailing_id, insert_time) VALUES (?,?,?,?,?)`,
 		mailingDetails.Email,
 		mailingDetails.Title,
 		mailingDetails.Content,
 		mailingDetails.MailingID,
 		mailingDetails.InsertTime)
 	return err
+}
+
+func (db *DB) GetMailingDetailsByMailingID(mailingID int) ([]*MailingDetails, error) {
+	var details []*MailingDetails
+
+	_, err := db.db.Query(
+		&details,
+		`SELECT id, mailing_id, email, title, content, insert_time FROM mailing_details WHERE mailing_id=?`,
+		mailingID,
+	)
+	if err != nil {
+		return nil, err
+	}
+	return details, nil
 }
 
 //func (db *DB) GetMailingDetails(){}
