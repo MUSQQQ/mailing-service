@@ -29,7 +29,7 @@ func (req *CreateMailingDetailsRequest) toMailingDetails() (*MailingDetails, err
 		Title:      req.Title,
 		Content:    req.Content,
 		MailingID:  req.MailingID,
-		InsertTime: time,
+		InsertTime: time.UTC(),
 	}, nil
 }
 

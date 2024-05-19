@@ -1,10 +1,12 @@
 package service
 
 import (
+	"context"
 	"mailing-service/cmd/mailing-service/config"
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/sirupsen/logrus"
 )
 
 type Router struct {
@@ -27,6 +29,14 @@ func (r *Router) RegisterHandlers(service *Service) {
 	})
 }
 
-func (r *Router) Run() {
-	http.ListenAndServe(":"+r.Port, r.router)
+func (r *Router) Run(ctx context.Context) {
+	srv := http.Server{
+		Addr:    ":" + r.Port,
+		Handler: r.router,
+	}
+	go srv.ListenAndServe()
+
+	<-ctx.Done()
+	logrus.Info("router shutdown")
+	srv.Shutdown(ctx)
 }
