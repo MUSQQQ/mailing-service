@@ -3,7 +3,9 @@ package service
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
+	"github.com/go-chi/chi"
 	"github.com/sirupsen/logrus"
 )
 
@@ -62,7 +64,13 @@ func (s *Service) SendMailing(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//deleting that what was sent
+	filters := &Filters{
+		clauses: []string{},
+	}
+	err = s.db.DeleteMailingDetails(filters.ByIDs(IDsSent).clauses)
+	if err != nil {
+		logrus.WithError(err).Error("failed to delete mailing details")
+	}
 
 	if len(details) > len(IDsSent) {
 		info, _ := json.Marshal(map[string]string{
@@ -78,5 +86,24 @@ func (s *Service) SendMailing(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Service) DeleteMailingDetails(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
+	mailingID := chi.URLParam(r, "mailingID")
+	if mailingID == "" {
+		logrus.Warn("mailingID not found")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	id, err := strconv.Atoi(mailingID)
+	if err != nil {
+		logrus.Warn("incorrect mailingID")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	filters := Filters{clauses: []string{}}
+	err = s.db.DeleteMailingDetails(filters.ByMailingID(id).clauses)
+	if err != nil {
+		logrus.Warn("failed to delete mailing details")
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(http.StatusOK)
 }
