@@ -9,10 +9,17 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type RouterInterface interface {
+	RegisterHandlers(service *Service)
+	Run(ctx context.Context)
+}
+
 type Router struct {
 	Router *chi.Mux
 	Port   string
 }
+
+var _ RouterInterface = (*Router)(nil)
 
 func NewRouter(cfg *config.RouterConfig) *Router {
 	return &Router{
