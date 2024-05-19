@@ -38,7 +38,6 @@ func (s *Service) SendEmails(mailingDetails []*MailingDetails) ([]int, error) {
 			logrus.WithError(err).WithField("details", details).Warn("failed to send email")
 			continue
 		}
-		logrus.Info(details.ID)
 		IDsSent = append(IDsSent, details.ID)
 	}
 	return IDsSent, nil
