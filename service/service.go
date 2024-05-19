@@ -18,7 +18,13 @@ type Service struct {
 
 var _ ServiceInterface = (*Service)(nil)
 
+type EmailServiceInterface interface {
+	SendEmail(mailingDetails *MailingDetails) error
+}
+
 type EmailService struct{}
+
+var _ EmailServiceInterface = (*EmailService)(nil)
 
 func NewService(db DBInterface) *Service {
 	return &Service{db: db, mail: &EmailService{}}

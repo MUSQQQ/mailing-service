@@ -26,7 +26,7 @@ type RouterConfig struct {
 }
 
 type CronConfig struct {
-	Interval time.Duration `env:"CRON_INTERVAL" envDefault:"300s"`
+	Interval time.Duration `env:"CRON_INTERVAL" envDefault:"60s"`
 }
 
 func Parse() *Config {

@@ -8,10 +8,17 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+type CronInterface interface {
+	Run(ctx context.Context)
+	RemoveMailingDetails() error
+}
+
 type Cron struct {
 	interval time.Duration
 	db       *DB
 }
+
+var _ CronInterface = (*Cron)(nil)
 
 func NewCron(cfg *config.CronConfig, db *DB) *Cron {
 	return &Cron{
