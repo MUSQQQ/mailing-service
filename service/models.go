@@ -32,3 +32,7 @@ func (req *CreateMailingDetailsRequest) toMailingDetails() (*MailingDetails, err
 		InsertTime: time,
 	}, nil
 }
+
+type SendMailingRequest struct {
+	MailingID int `json:"mailing_id"`
+}
