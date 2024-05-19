@@ -31,9 +31,9 @@ func (s *Service) SendEmails(mailingDetails []*MailingDetails) ([]int, error) {
 	return IDsSent, nil
 }
 
-// mocked random behaviour
+// mocked random behaviour 1/10 chance of failure
 func (es *EmailService) SendEmail(mailingDetails *MailingDetails) error {
-	if rand.Intn(2) == 0 {
+	if rand.Intn(10) == 0 {
 		return errors.New("oops")
 	}
 	return nil

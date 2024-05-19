@@ -21,16 +21,19 @@ func NewCron(cfg *config.CronConfig, db *DB) *Cron {
 }
 
 func (c *Cron) Run(ctx context.Context) {
+	log := logrus.New()
+	log.Info("start cron ticker")
 	ticker := time.NewTicker(c.interval)
 	for {
 		select {
 		case <-ticker.C:
+			log.Info("removing mailing details")
 			err := c.RemoveMailingDetails()
 			if err != nil {
-				logrus.WithError(err).Error("failed to delete mailing details older than 5 minutes")
+				log.WithError(err).Error("failed to delete mailing details older than 5 minutes")
 			}
 		case <-ctx.Done():
-			logrus.Info("cron shutdown")
+			log.Info("cron shutdown")
 			return
 		}
 	}
