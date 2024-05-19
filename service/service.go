@@ -14,7 +14,7 @@ type Service struct {
 
 type EmailService struct{}
 
-func New(db *DB) *Service {
+func NewService(db *DB) *Service {
 	return &Service{db: db, mail: &EmailService{}}
 }
 

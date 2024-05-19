@@ -81,7 +81,7 @@ func (f *Filters) ByInsertTimeBefore(insertTime time.Time) *Filters {
 	if f.clauses == nil {
 		f.clauses = []string{}
 	}
-	f.clauses = append(f.clauses, fmt.Sprintf(`insert_time<%s`, insertTime))
+	f.clauses = append(f.clauses, fmt.Sprintf(`insert_time<'%s'`, insertTime.UTC().Format("2006-01-02 15:04:05")))
 	return f
 }
 

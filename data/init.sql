@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS mailing_details (
     email VARCHAR (255) NOT NULL,
     title VARCHAR(255),
     content VARCHAR(255),
-    insert_time DATE NOT NULL default CURRENT_DATE
+    insert_time TIMESTAMP NOT NULL default CURRENT_TIMESTAMP
 )
