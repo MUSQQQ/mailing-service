@@ -18,7 +18,10 @@ func main() {
 	cfg := config.Parse()
 
 	log.Info("initializing database")
-	db := service.NewDB(cfg.DBConfig)
+	db, err := service.NewDB(cfg.DBConfig)
+	if err != nil {
+		log.WithError(err).Fatal("failed to initialize DB")
+	}
 
 	log.Info("initializing service")
 	srv := service.NewService(db)

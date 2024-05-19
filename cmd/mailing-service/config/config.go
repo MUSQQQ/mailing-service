@@ -16,7 +16,8 @@ type Config struct {
 type DBConfig struct {
 	User     string `env:"DB_USER" envDefault:"postgres"`
 	Password string `env:"DB_PASSWORD" envDefault:"postgres"`
-	Address  string `env:"DB_ADDRESS" envDefault:"postgres:5432"`
+	Host     string `env:"DB_HOST" envDefault:"postgres"`
+	Port     string `env:"DB_PORT" envDefault:"5432"`
 	Database string `env:"DB_NAME" envDefault:"mailing"`
 }
 
@@ -25,7 +26,7 @@ type RouterConfig struct {
 }
 
 type CronConfig struct {
-	Interval time.Duration `env:"CRON_INTERVAL" envDefault:"60s"`
+	Interval time.Duration `env:"CRON_INTERVAL" envDefault:"300s"`
 }
 
 func Parse() *Config {
